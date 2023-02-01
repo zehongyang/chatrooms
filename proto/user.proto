@@ -1,0 +1,11 @@
+syntax = "proto3";
+option go_package = "./pb";
+
+message CaptchaCreateQuery{
+
+}
+
+message CaptchaCreateQueryResponse{
+  string bs4 = 1; //png base64
+  string id = 2; //验证码id
+}
