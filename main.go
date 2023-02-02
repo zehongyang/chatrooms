@@ -12,5 +12,6 @@ func main() {
 	engine := gin.Default()
 	engine.GET("/ws", handlers.WsConnectQuery())
 	engine.POST("/user/captcha", nets.WrapHttpFunc(handlers.CaptchaCreateQuery()))
+	engine.POST("/user/register", nets.WrapHttpFunc(handlers.UserRegisterQuery()))
 	engine.Run()
 }

@@ -9,3 +9,24 @@ message CaptchaCreateQueryResponse{
   string bs4 = 1; //png base64
   string id = 2; //验证码id
 }
+
+
+message UserRegisterQuery{
+  string userName = 1; //用户名
+  string password = 2;//密码
+  string idKey = 3; //验证码标识
+  string code = 4; //验证码
+}
+
+message UserRegisterQueryResponse{
+  UserInfo userInfo = 1; //用户信息
+}
+
+message UserInfo{
+  int64 uid = 1; //用户id
+  string nickName = 2; //昵称
+  string avatar = 3; //头像
+  string token = 4; //token
+  int64 silent = 5; //禁言
+  int64 disable = 6; //禁用
+}

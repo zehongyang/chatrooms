@@ -19,3 +19,10 @@ zap:
     nameEncoder: "full"
   outputPaths: ["stderr"]
   errorOutputPaths: ["stderr"]
+
+
+db:
+  driver: "mysql"
+  uri: "root:root@tcp(127.0.0.1:3306)/chat_room?charset=utf8mb4"
+  maxnums: 6
+  idlenums: 5
