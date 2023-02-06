@@ -56,8 +56,20 @@ func (s *DBUser) Update(v *User, cols ...string) (int64, error) {
 	return ss.Update(v)
 }
 
-func (s *DBUser) Register(q *pb.UserRegisterQuery) (*User, error) {
-	return nil, nil
+func (s *DBUser) Register(q *pb.UserRegisterQuery, ip string) (*User, error) {
+	salt := genSalt(6)
+	password := genPassword(q.Password, q.UserName, salt)
+	u := &User{
+		UserName: q.UserName,
+		Token:    genToken(),
+		Pwd:      password,
+		Salt:     salt,
+		NickName: genNickName(),
+		Ctm:      time.Now().Unix(),
+		Ip:       ip,
+	}
+	_, err := s.Create(u)
+	return u, err
 }
 
 func genPassword(password, userName, salt string) string {
@@ -81,4 +93,13 @@ func genSalt(n int) string {
 		sb.WriteByte(letters[idx])
 	}
 	return sb.String()
+}
+
+func genToken() string {
+	sum := md5.Sum([]byte(genSalt(6)))
+	return hex.EncodeToString(sum[:])
+}
+
+func genNickName() string {
+	return fmt.Sprintf("用户%d%d", time.Now().Unix(), rand.Intn(100))
 }

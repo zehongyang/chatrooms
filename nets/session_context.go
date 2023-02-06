@@ -26,6 +26,7 @@ type ISessionContext interface {
 	Request(v proto.Message) error
 	Response(code int, res proto.Message, msg ...string) error
 	GetUid() int64
+	GetIp() string
 }
 
 type HeaderUser struct {
@@ -70,6 +71,10 @@ func (s HttpSessionContext) GetUid() int64 {
 	return s.header.Uid
 }
 
+func (s HttpSessionContext) GetIp() string {
+	return s.ctx.ClientIP()
+}
+
 type WebsocketSessionContext struct {
 	session *Session
 	data    []byte
@@ -99,4 +104,8 @@ func (s WebsocketSessionContext) GetUid() int64 {
 		return 0
 	}
 	return s.session.Uid
+}
+
+func (s WebsocketSessionContext) GetIp() string {
+	return s.session.LocalAddr().String()
 }
