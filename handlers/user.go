@@ -23,7 +23,17 @@ func UserRegisterQuery() nets.HandlerFunc {
 		err := ctx.Request(&q)
 		if err != nil || len(q.UserName) < 1 || len(q.Password) < 1 || len(q.IdKey) < 1 || len(q.Code) < 1 {
 			logger.Error("UserRegisterQuery", zap.Error(err))
-			ctx.Response(http.StatusBadRequest, nil)
+			ctx.Response(http.StatusBadRequest, nil, "参数错误")
+			return
+		}
+		if len(q.UserName) < 6 || len(q.UserName) > 16 {
+			logger.Error("UserRegisterQuery", zap.Error(err))
+			ctx.Response(http.StatusBadRequest, nil, "账号长度为6-16位")
+			return
+		}
+		if len(q.Password) < 6 {
+			logger.Error("UserRegisterQuery", zap.Error(err))
+			ctx.Response(http.StatusBadRequest, nil, "密码长度为6位及以上")
 			return
 		}
 		//验证码是否正确
