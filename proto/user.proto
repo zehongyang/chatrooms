@@ -30,3 +30,15 @@ message UserInfo{
   int64 silent = 5; //禁言
   int64 disable = 6; //禁用
 }
+
+
+message UserLoginQuery{
+  string userName = 1; //用户名
+  string password = 2;//密码
+  string idKey = 3; //验证码标识
+  string code = 4; //验证码
+}
+
+message UserLoginQueryResponse{
+  UserInfo userInfo = 1; //用户信息
+}

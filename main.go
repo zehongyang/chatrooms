@@ -13,5 +13,6 @@ func main() {
 	engine.GET("/ws", handlers.WsConnectQuery())
 	engine.POST("/user/captcha", nets.WrapHttpFunc(handlers.CaptchaCreateQuery()))
 	engine.POST("/user/register", nets.WrapHttpFunc(handlers.UserRegisterQuery()))
+	engine.POST("/user/login", nets.WrapHttpFunc(handlers.UserLoginQuery()))
 	engine.Run()
 }

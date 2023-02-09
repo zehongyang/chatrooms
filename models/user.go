@@ -45,6 +45,26 @@ func (s *DBUser) Create(v *User) (int64, error) {
 	return s.dbe.Insert(v)
 }
 
+func (s *DBUser) Login(userName, password, ip string) (*User, error) {
+	var u User
+	has, err := s.dbe.Where("user_name = ?", userName).Get(&u)
+	if err != nil {
+		return nil, err
+	}
+	if !has {
+		return nil, nil
+	}
+	ok := verifyPassword(password, &u)
+	if !ok {
+		return nil, nil
+	}
+	u.Token = genToken()
+	u.Ltm = time.Now().Unix()
+	u.Lip = ip
+	_, err = s.Update(&u, "token", "ltm", "lip")
+	return &u, err
+}
+
 func (s *DBUser) Update(v *User, cols ...string) (int64, error) {
 	if v == nil {
 		return 0, errs.ErrorNil
