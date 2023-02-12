@@ -71,6 +71,7 @@ func (s *Session) Reader() {
 			logger.Error("", zap.Error(err), zap.Any("s", s))
 			return
 		}
+		logger.Debug("recv", zap.Any("data", data))
 		s.dealRead(data)
 	}
 }
@@ -94,9 +95,10 @@ func (s *Session) dealRead(data []byte) {
 		s.CloseSession()
 		return
 	}
-	sctx := WebsocketSessionContext{
+	sctx := &WebsocketSessionContext{
 		session: s,
 		data:    []byte(ri.Data),
+		id:      ri.Id,
 	}
 	h, ok := s.sm.funcMap[ri.Id]
 	if !ok {
@@ -231,4 +233,24 @@ func (s *SessionManager) Close(uid int64) error {
 	close(ss.writeChan)
 	delete(s.sessions.buckets[idx].sm, uid)
 	return nil
+}
+
+func (s *SessionManager) GetSession(uid int64) (*Session, error) {
+	if uid < 1 {
+		return nil, errs.ErrorInvalidUid
+	}
+	idx := uid % s.sessions.length
+	if idx >= s.sessions.length {
+		return nil, errs.ErrorInvalidSessionSlice
+	}
+	s.sessions.buckets[idx].lock.Lock()
+	defer s.sessions.buckets[idx].lock.Unlock()
+	if s.sessions.buckets[idx].sm == nil {
+		s.sessions.buckets[idx].sm = make(map[int64]*Session)
+		return nil, nil
+	}
+	if ss, ok := s.sessions.buckets[idx].sm[uid]; ok && !ss.Closed {
+		return ss, nil
+	}
+	return nil, nil
 }

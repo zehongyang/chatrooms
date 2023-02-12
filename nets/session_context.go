@@ -15,6 +15,7 @@ type ResponseInfo struct {
 	Code int           `json:"code"`
 	Msg  string        `json:"msg"`
 	Data proto.Message `json:"data"`
+	Id   pb.HandlerId  `json:"id"`
 }
 
 type RequestInfo struct {
@@ -78,6 +79,7 @@ func (s HttpSessionContext) GetIp() string {
 type WebsocketSessionContext struct {
 	session *Session
 	data    []byte
+	id      pb.HandlerId
 }
 
 func (s WebsocketSessionContext) Request(v proto.Message) error {
@@ -91,6 +93,7 @@ func (s WebsocketSessionContext) Response(code int, res proto.Message, msgs ...s
 		ri.Msg = msgs[0]
 	}
 	ri.Data = res
+	ri.Id = s.id
 	data, err := json.Marshal(ri)
 	if err != nil {
 		return err

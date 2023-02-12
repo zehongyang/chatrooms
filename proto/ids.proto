@@ -4,4 +4,6 @@ option go_package = "./pb";
 enum HandlerId{
   HI_None = 0;
   HI_Login = 1;//登录请求
+  HI_HeartBeat = 2;//登录请求
+  HI_Message = 3;//聊天消息
 }

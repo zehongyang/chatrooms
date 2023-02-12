@@ -92,6 +92,18 @@ func (s *DBUser) Register(q *pb.UserRegisterQuery, ip string) (*User, error) {
 	return u, err
 }
 
+func (s *DBUser) Get(uid int64) (*User, error) {
+	var u User
+	has, err := s.dbe.Where("id = ?", uid).Get(&u)
+	if err != nil {
+		return nil, err
+	}
+	if !has {
+		return nil, nil
+	}
+	return &u, nil
+}
+
 func genPassword(password, userName, salt string) string {
 	sum := md5.Sum([]byte(fmt.Sprintf("%s%s", password, userName)))
 	sum = md5.Sum([]byte(fmt.Sprintf("%s%s", hex.EncodeToString(sum[:]), salt)))

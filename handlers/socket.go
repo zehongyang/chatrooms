@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"chat_room/nets"
+	"chat_room/proto/pb"
 	"chat_room/utils/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -15,36 +16,65 @@ func WsConnectQuery() gin.HandlerFunc {
 	}}
 	sm := nets.GetSessionManager()
 	return func(c *gin.Context) {
-		conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 		var res nets.ResponseInfo
-		defer func() {
-			if conn != nil {
-				conn.WriteJSON(res)
-			}
-		}()
+		var h nets.HeaderUser
+		err := c.ShouldBindHeader(&h)
+		if err != nil || h.Uid < 1 {
+			logger.Error("WsConnectQuery", zap.Error(err))
+			res.Code = http.StatusInternalServerError
+			c.JSON(http.StatusBadRequest, res)
+			return
+		}
+		logger.Info("", zap.Any("h", h))
+		conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 		if err != nil || conn == nil {
 			logger.Error("WsConnectQuery", zap.Error(err))
 			res.Code = http.StatusInternalServerError
 			c.JSON(http.StatusBadRequest, res)
 			return
 		}
-		var h nets.HeaderUser
-		err = c.ShouldBindHeader(&h)
-		if err != nil {
-			logger.Error("WsConnectQuery", zap.Error(err))
-			res.Code = http.StatusInternalServerError
-			return
-		}
-		h.Uid = 1
 		ss := nets.NewSession(conn, true, h.Uid)
 		err = sm.Insert(ss)
 		if err != nil {
 			logger.Error("WsConnectQuery", zap.Error(err))
 			res.Code = http.StatusInternalServerError
+			c.JSON(http.StatusBadRequest, res)
 			return
 		}
 		res.Code = http.StatusOK
 		go ss.Reader()
 		go ss.Writer()
+	}
+}
+
+const (
+	Ping = "ping"
+	Pong = "pong"
+)
+
+func HeartBeatQuery() nets.HandlerFunc {
+	return func(ctx nets.ISessionContext) {
+		var (
+			q   pb.HeartBeatQuery
+			res pb.HeartBeatQueryResponse
+		)
+		uid := ctx.GetUid()
+		if uid < 1 {
+			ctx.Response(http.StatusBadRequest, nil)
+			return
+		}
+		err := ctx.Request(&q)
+		if err != nil {
+			logger.Error("HeartBeatQuery", zap.Error(err), zap.Any("q", &q))
+			ctx.Response(http.StatusBadRequest, nil)
+			return
+		}
+		if q.Msg != Ping {
+			logger.Error("HeartBeatQuery", zap.Any("q", &q))
+			ctx.Response(http.StatusBadRequest, nil)
+			return
+		}
+		res.Msg = Pong
+		ctx.Response(http.StatusOK, &res)
 	}
 }

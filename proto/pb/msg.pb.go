@@ -20,6 +20,61 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type MsgType int32
+
+const (
+	MsgType_MT_None  MsgType = 0
+	MsgType_MT_Text  MsgType = 1 //文本
+	MsgType_MT_Pic   MsgType = 2 //图片
+	MsgType_MT_Video MsgType = 3 //视频
+	MsgType_MT_Audio MsgType = 4 //语音
+)
+
+// Enum value maps for MsgType.
+var (
+	MsgType_name = map[int32]string{
+		0: "MT_None",
+		1: "MT_Text",
+		2: "MT_Pic",
+		3: "MT_Video",
+		4: "MT_Audio",
+	}
+	MsgType_value = map[string]int32{
+		"MT_None":  0,
+		"MT_Text":  1,
+		"MT_Pic":   2,
+		"MT_Video": 3,
+		"MT_Audio": 4,
+	}
+)
+
+func (x MsgType) Enum() *MsgType {
+	p := new(MsgType)
+	*p = x
+	return p
+}
+
+func (x MsgType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (MsgType) Descriptor() protoreflect.EnumDescriptor {
+	return file_msg_proto_enumTypes[0].Descriptor()
+}
+
+func (MsgType) Type() protoreflect.EnumType {
+	return &file_msg_proto_enumTypes[0]
+}
+
+func (x MsgType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use MsgType.Descriptor instead.
+func (MsgType) EnumDescriptor() ([]byte, []int) {
+	return file_msg_proto_rawDescGZIP(), []int{0}
+}
+
 type Hello struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -114,6 +169,256 @@ func (x *HelloResponse) GetName() string {
 	return ""
 }
 
+type HeartBeatQuery struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Msg string `protobuf:"bytes,1,opt,name=msg,proto3" json:"msg,omitempty"` //ping
+}
+
+func (x *HeartBeatQuery) Reset() {
+	*x = HeartBeatQuery{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_msg_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *HeartBeatQuery) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HeartBeatQuery) ProtoMessage() {}
+
+func (x *HeartBeatQuery) ProtoReflect() protoreflect.Message {
+	mi := &file_msg_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HeartBeatQuery.ProtoReflect.Descriptor instead.
+func (*HeartBeatQuery) Descriptor() ([]byte, []int) {
+	return file_msg_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *HeartBeatQuery) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type HeartBeatQueryResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Msg string `protobuf:"bytes,1,opt,name=msg,proto3" json:"msg,omitempty"` //pong
+}
+
+func (x *HeartBeatQueryResponse) Reset() {
+	*x = HeartBeatQueryResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_msg_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *HeartBeatQueryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HeartBeatQueryResponse) ProtoMessage() {}
+
+func (x *HeartBeatQueryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_msg_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HeartBeatQueryResponse.ProtoReflect.Descriptor instead.
+func (*HeartBeatQueryResponse) Descriptor() ([]byte, []int) {
+	return file_msg_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *HeartBeatQueryResponse) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type ChatMsgQuery struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Msg *ChatMessage `protobuf:"bytes,1,opt,name=msg,proto3" json:"msg,omitempty"`
+}
+
+func (x *ChatMsgQuery) Reset() {
+	*x = ChatMsgQuery{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_msg_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ChatMsgQuery) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChatMsgQuery) ProtoMessage() {}
+
+func (x *ChatMsgQuery) ProtoReflect() protoreflect.Message {
+	mi := &file_msg_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChatMsgQuery.ProtoReflect.Descriptor instead.
+func (*ChatMsgQuery) Descriptor() ([]byte, []int) {
+	return file_msg_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ChatMsgQuery) GetMsg() *ChatMessage {
+	if x != nil {
+		return x.Msg
+	}
+	return nil
+}
+
+type ChatMsgQueryResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ChatMsgQueryResponse) Reset() {
+	*x = ChatMsgQueryResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_msg_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ChatMsgQueryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChatMsgQueryResponse) ProtoMessage() {}
+
+func (x *ChatMsgQueryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_msg_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChatMsgQueryResponse.ProtoReflect.Descriptor instead.
+func (*ChatMsgQueryResponse) Descriptor() ([]byte, []int) {
+	return file_msg_proto_rawDescGZIP(), []int{5}
+}
+
+type ChatMessage struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Content string  `protobuf:"bytes,1,opt,name=content,proto3" json:"content,omitempty"`
+	MsgType MsgType `protobuf:"varint,2,opt,name=msgType,proto3,enum=MsgType" json:"msgType,omitempty"`
+	RoomId  int64   `protobuf:"varint,3,opt,name=roomId,proto3" json:"roomId,omitempty"`   //房间id
+	FromUid int64   `protobuf:"varint,4,opt,name=fromUid,proto3" json:"fromUid,omitempty"` //发送人id
+}
+
+func (x *ChatMessage) Reset() {
+	*x = ChatMessage{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_msg_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ChatMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChatMessage) ProtoMessage() {}
+
+func (x *ChatMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_msg_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChatMessage.ProtoReflect.Descriptor instead.
+func (*ChatMessage) Descriptor() ([]byte, []int) {
+	return file_msg_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ChatMessage) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *ChatMessage) GetMsgType() MsgType {
+	if x != nil {
+		return x.MsgType
+	}
+	return MsgType_MT_None
+}
+
+func (x *ChatMessage) GetRoomId() int64 {
+	if x != nil {
+		return x.RoomId
+	}
+	return 0
+}
+
+func (x *ChatMessage) GetFromUid() int64 {
+	if x != nil {
+		return x.FromUid
+	}
+	return 0
+}
+
 var File_msg_proto protoreflect.FileDescriptor
 
 var file_msg_proto_rawDesc = []byte{
@@ -121,8 +426,31 @@ var file_msg_proto_rawDesc = []byte{
 	0x65, 0x6c, 0x6c, 0x6f, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x23, 0x0a, 0x0d, 0x48, 0x65, 0x6c, 0x6c,
 	0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d,
-	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x42, 0x06, 0x5a,
-	0x04, 0x2e, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x22, 0x0a,
+	0x0e, 0x48, 0x65, 0x61, 0x72, 0x74, 0x42, 0x65, 0x61, 0x74, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12,
+	0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73,
+	0x67, 0x22, 0x2a, 0x0a, 0x16, 0x48, 0x65, 0x61, 0x72, 0x74, 0x42, 0x65, 0x61, 0x74, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x6d,
+	0x73, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x22, 0x2e, 0x0a,
+	0x0c, 0x43, 0x68, 0x61, 0x74, 0x4d, 0x73, 0x67, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x1e, 0x0a,
+	0x03, 0x6d, 0x73, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x43, 0x68, 0x61,
+	0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x22, 0x16, 0x0a,
+	0x14, 0x43, 0x68, 0x61, 0x74, 0x4d, 0x73, 0x67, 0x51, 0x75, 0x65, 0x72, 0x79, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x7d, 0x0a, 0x0b, 0x43, 0x68, 0x61, 0x74, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x22,
+	0x0a, 0x07, 0x6d, 0x73, 0x67, 0x54, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32,
+	0x08, 0x2e, 0x4d, 0x73, 0x67, 0x54, 0x79, 0x70, 0x65, 0x52, 0x07, 0x6d, 0x73, 0x67, 0x54, 0x79,
+	0x70, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x6f, 0x6f, 0x6d, 0x49, 0x64, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x03, 0x52, 0x06, 0x72, 0x6f, 0x6f, 0x6d, 0x49, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x66, 0x72,
+	0x6f, 0x6d, 0x55, 0x69, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07, 0x66, 0x72, 0x6f,
+	0x6d, 0x55, 0x69, 0x64, 0x2a, 0x4b, 0x0a, 0x07, 0x4d, 0x73, 0x67, 0x54, 0x79, 0x70, 0x65, 0x12,
+	0x0b, 0x0a, 0x07, 0x4d, 0x54, 0x5f, 0x4e, 0x6f, 0x6e, 0x65, 0x10, 0x00, 0x12, 0x0b, 0x0a, 0x07,
+	0x4d, 0x54, 0x5f, 0x54, 0x65, 0x78, 0x74, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x4d, 0x54, 0x5f,
+	0x50, 0x69, 0x63, 0x10, 0x02, 0x12, 0x0c, 0x0a, 0x08, 0x4d, 0x54, 0x5f, 0x56, 0x69, 0x64, 0x65,
+	0x6f, 0x10, 0x03, 0x12, 0x0c, 0x0a, 0x08, 0x4d, 0x54, 0x5f, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x10,
+	0x04, 0x42, 0x06, 0x5a, 0x04, 0x2e, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -137,17 +465,26 @@ func file_msg_proto_rawDescGZIP() []byte {
 	return file_msg_proto_rawDescData
 }
 
-var file_msg_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_msg_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_msg_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_msg_proto_goTypes = []interface{}{
-	(*Hello)(nil),         // 0: Hello
-	(*HelloResponse)(nil), // 1: HelloResponse
+	(MsgType)(0),                   // 0: MsgType
+	(*Hello)(nil),                  // 1: Hello
+	(*HelloResponse)(nil),          // 2: HelloResponse
+	(*HeartBeatQuery)(nil),         // 3: HeartBeatQuery
+	(*HeartBeatQueryResponse)(nil), // 4: HeartBeatQueryResponse
+	(*ChatMsgQuery)(nil),           // 5: ChatMsgQuery
+	(*ChatMsgQueryResponse)(nil),   // 6: ChatMsgQueryResponse
+	(*ChatMessage)(nil),            // 7: ChatMessage
 }
 var file_msg_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	7, // 0: ChatMsgQuery.msg:type_name -> ChatMessage
+	0, // 1: ChatMessage.msgType:type_name -> MsgType
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_msg_proto_init() }
@@ -180,19 +517,80 @@ func file_msg_proto_init() {
 				return nil
 			}
 		}
+		file_msg_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HeartBeatQuery); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_msg_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HeartBeatQueryResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_msg_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ChatMsgQuery); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_msg_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ChatMsgQueryResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_msg_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ChatMessage); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_msg_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   2,
+			NumEnums:      1,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_msg_proto_goTypes,
 		DependencyIndexes: file_msg_proto_depIdxs,
+		EnumInfos:         file_msg_proto_enumTypes,
 		MessageInfos:      file_msg_proto_msgTypes,
 	}.Build()
 	File_msg_proto = out.File

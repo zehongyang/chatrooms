@@ -8,3 +8,36 @@ message Hello{
 message HelloResponse{
   string name = 2;
 }
+
+
+message HeartBeatQuery{
+  string msg = 1; //ping
+}
+
+message HeartBeatQueryResponse{
+  string msg = 1; //pong
+}
+
+enum MsgType{
+  MT_None = 0;
+  MT_Text = 1;//文本
+  MT_Pic = 2; //图片
+  MT_Video = 3;//视频
+  MT_Audio =4; //语音
+}
+
+
+message ChatMsgQuery{
+  ChatMessage msg = 1;
+}
+
+message ChatMsgQueryResponse{
+
+}
+
+message ChatMessage{
+  string content = 1;
+  MsgType msgType = 2;
+  int64 roomId = 3; //房间id
+  int64 fromUid = 4; //发送人id
+}
