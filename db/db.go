@@ -6,6 +6,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"go.uber.org/zap"
 	"sync"
+	"time"
 	"xorm.io/xorm"
 )
 
@@ -44,6 +45,7 @@ var GetDBEngine = func() func() *DbEngine {
 			}
 			engine.SetMaxOpenConns(cfg.Db.MaxNums)
 			engine.SetMaxIdleConns(cfg.Db.IdleNums)
+			engine.SetConnMaxLifetime(time.Second * 110)
 			err = engine.Ping()
 			if err != nil {
 				logger.Fatal("GetDBEngine", zap.Error(err), zap.Any("cfg", cfg))

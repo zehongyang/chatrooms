@@ -1,0 +1,19 @@
+syntax = "proto3";
+option go_package = "./pb";
+
+message RoomListQuery{
+  int64 skip = 1;
+  int64 limit = 2;
+  int64 id = 3;
+}
+
+message RoomListQueryResponse{
+  repeated RoomInfo rooms = 1;
+}
+
+message RoomInfo{
+  int64 id = 1;
+  string  name = 2;
+  int32 onlines = 3;
+  string img = 4;
+}

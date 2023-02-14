@@ -27,6 +27,7 @@ type Session struct {
 	Closed    bool
 	writeChan chan []byte
 	ctx       context.Context
+	RoomId    int64
 }
 
 func NewSession(conn *websocket.Conn, isLogin bool, uid int64) *Session {
@@ -253,4 +254,16 @@ func (s *SessionManager) GetSession(uid int64) (*Session, error) {
 		return ss, nil
 	}
 	return nil, nil
+}
+
+func (s *SessionManager) JoinRoom(uid, roomId int64) error {
+	ss, err := s.GetSession(uid)
+	if err != nil {
+		return err
+	}
+	if ss == nil {
+		return nil
+	}
+	ss.RoomId = roomId
+	return nil
 }

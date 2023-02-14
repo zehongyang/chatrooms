@@ -1,5 +1,19 @@
 package models
 
+type Room struct {
+	Id      int64  `xorm:"pk autoincr BIGINT(20)"`
+	Name    string `xorm:"not null default '' comment('房间名称') VARCHAR(255)"`
+	Onlines int    `xorm:"not null default 0 comment('在线人数') INT(11)"`
+	Img     string `xorm:"not null default '' comment('封面图') VARCHAR(255)"`
+}
+
+type RoomUser struct {
+	Id     int64 `xorm:"pk autoincr BIGINT(20)"`
+	Uid    int64 `xorm:"not null default 0 comment('用户id') unique BIGINT(20)"`
+	RoomId int64 `xorm:"not null default 0 comment('房间id') index BIGINT(20)"`
+	Ctm    int64 `xorm:"not null default 0 comment('加入时间') BIGINT(20)"`
+}
+
 type User struct {
 	Id       int64  `xorm:"pk autoincr BIGINT(20)"`
 	UserName string `xorm:"not null default '' comment('用户名') unique VARCHAR(20)"`
